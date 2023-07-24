@@ -71,6 +71,39 @@ allBlog: async (req, res) => {
   }
 },
 
+blogById: async (req, res) => {
+  try {
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || 10;
+    const offset = (page - 1) * limit;
+    
+    const blogId = req.body.id; 
+    const total = await blog.count({
+      where: { id : blogId }
+    });
+
+    const result = await blog.findOne({
+      where: {
+        id: blogId,
+      },
+      limit,
+      offset: offset,
+      order: [["createdAt", "DESC"]]
+    });
+
+    res.status(200).send({
+      totalpage: Math.ceil(total / limit),
+      currentpage: page,
+      total_blog: total,
+      result,
+      status: true
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+},
+
   createBlog: async (req, res) => {
     try {
       const { title, keyword, content, videoURL, country, category } = req.body;
