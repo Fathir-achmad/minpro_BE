@@ -119,6 +119,26 @@ module.exports = {
         }
     },
 
+    checkKeepLogin : async (req, res, next) => {
+        try {
+            await header('authorization').notEmpty().withMessage("Token required").run(req)
+            const validation = validationResult(req)
+            if (validation.isEmpty()) {
+                next()
+            }
+            else{
+                return res.status(400).send({
+                    status: false,
+                    msg: 'Invalid validation',
+                    error: validation.array()
+                })
+            }
+        } catch (err) {
+            console.log(err);
+            res.status(400).send(err);
+        }
+    },
+
     checkVerify: async(req, res, next) => {
         try {
             await header('authorization').notEmpty().withMessage("Token required").run(req)

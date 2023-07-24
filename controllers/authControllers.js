@@ -199,7 +199,7 @@ module.exports = {
             })
 
             res.status(200).send({
-                msg: "All accounts",
+                msg: "Success to keep login",
                 status: true,
                 result
             })
