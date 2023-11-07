@@ -143,7 +143,7 @@ module.exports = {
             await mailer.sendMail({
                 from: "fathir17.fa@gmail.com",
                 to: email,
-                subject: "Verify account to reset password",
+                subject: "Verify account to forgot password",
                 html: tempResult
             })
 
